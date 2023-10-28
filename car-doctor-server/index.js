@@ -22,6 +22,13 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // await client.connect();
+    const serviceCollection = client.db("carDoctorDB").collection("services");
+
+    app.get("/services", async (req, res) => {
+      const cursor = serviceCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
 
     await client.db("admin").command({ ping: 1 });
     console.log(
